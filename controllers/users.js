@@ -77,3 +77,29 @@ module.exports.login = (req, res, next) => {
     })
     .catch(next);
 };
+
+module.exports.createUser = (req, res, next) => {
+  const {
+    name, email, password,
+  } = req.body;
+
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      name, email, password: hash,
+    }))
+    .then(() => res.status(200).send({
+      data: {
+        name, email,
+      },
+    }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
+      }
+      if (err.name === 'MongoServerError' && err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует'));
+      }
+      next(err);
+    })
+    .catch(next);
+};

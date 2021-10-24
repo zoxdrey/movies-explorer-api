@@ -1,18 +1,18 @@
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const {PORT = 3000} = process.env;
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
-const { celebrate, Joi, errors } = require('celebrate');
+const {celebrate, Joi, errors} = require('celebrate');
 const cors = require('cors');
 const router = require('./routes');
-const { login, createUser } = require('./controllers/users');
+const {login, createUser} = require('./controllers/users');
 const auth = require('./middlewares/auth');
-const { MONGO_CONNECTION_STRING } = require('./utils/constants');
-const { LINK_REGEXP_VALIDATION_STRING } = require('./utils/constants');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const {MONGO_CONNECTION_STRING} = require('./utils/constants');
+const {LINK_REGEXP_VALIDATION_STRING} = require('./utils/constants');
+const {requestLogger, errorLogger} = require('./middlewares/logger');
 
 const app = express();
 
@@ -38,9 +38,7 @@ app.post('/signin', celebrate({
 
 app.post('/signup', celebrate({
     body: Joi.object().keys({
-      name: Joi.string().min(2).max(30),
-      about: Joi.string().min(2).max(30),
-      avatar: Joi.string().pattern(LINK_REGEXP_VALIDATION_STRING),
+      name: Joi.string().required(),
       email: Joi.string().required().min(2).max(30)
         .email()
         .required(),
@@ -56,7 +54,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use((err, req, res, next) => {
   // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
+  const {statusCode = 500, message} = err;
 
   res.status(statusCode)
     .send({
