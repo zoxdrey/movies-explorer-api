@@ -10,8 +10,7 @@ const UnauthorizedError = require('../errors/unauthorized-err');
 
 
 module.exports.getUser = (req, res, next) => {
-  const {userId} = req.params;
-
+  const userId = req.user._id;
   User.findById(userId)
     .then((user) => {
       if (!user) {
