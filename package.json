@@ -25,15 +25,17 @@
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
     "nodemon": "^2.0.14",
-    "validator": "^13.6.0"
-  },
-  "devDependencies": {
+    "validator": "^13.6.0",
+    "dotenv": "^10.0.0",
+    "helmet": "^4.6.0",
     "celebrate": "^15.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express-winston": "^4.2.0",
-    "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
+    "express-winston": "^4.2.0",
     "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-config-airbnb": "^18.2.1"
   }
 }

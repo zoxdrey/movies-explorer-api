@@ -1,7 +1,8 @@
-const express = require("express");
+const express = require('express');
+
 const movieRouter = express.Router();
 const {
-  getMovies, createMovie, deleteMovie
+  getMovies, createMovie, deleteMovie,
 } = require('../controllers/movies');
 
 movieRouter.get('/movies', getMovies);

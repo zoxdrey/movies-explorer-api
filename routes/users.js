@@ -1,9 +1,10 @@
-const express = require("express");
+const express = require('express');
+
 const userRouter = express.Router();
+const { celebrate, Joi } = require('celebrate');
 const {
   getUser, updateUserById,
 } = require('../controllers/users');
-const {celebrate, Joi} = require("celebrate");
 
 userRouter.get('/users/me', getUser);
 userRouter.patch('/users/me', celebrate({
