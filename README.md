@@ -6,6 +6,6 @@ Node.js
 Express
 MongoDB
 
-https://zoxdrey.mesto.nomoredomains.club/
+https://api.zoxdrey.mesto.nomoredomains.club/
 
 публичный апи - 178.154.202.223
