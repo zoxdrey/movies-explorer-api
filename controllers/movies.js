@@ -50,7 +50,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (!movie.owner.equals(owner)) {
         throw new ForbiddenError('Нельзя удалять чужие фильмы');
       }
-      Movie.deleteOne(movie).then(() => res.send({ movie }));
+      return Movie.deleteOne(movie).then(() => res.send({ movie })).catch(next);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {

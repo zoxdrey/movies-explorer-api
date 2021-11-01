@@ -21,9 +21,6 @@ module.exports.getUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Неверный формат _id пользователя'));
       }
-      if (err.message === 'Пользователь по указанному _id не найден.') {
-        next(new NotFoundError(err.message));
-      }
       next(err);
     }).catch(next);
 };
@@ -46,8 +43,8 @@ module.exports.updateUserById = (req, res, next) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError('Неверный формат _id пользователя'));
       }
-      if (err.message === 'Пользователь по указанному _id не найден.') {
-        next(new NotFoundError('Пользователь по указанному _id не найден.'));
+      if (err.name === 'MongoError') {
+        next(new ConflictError('Указанный email принадлежит другому пользователю'));
       }
       next(err);
     }).catch(next);
@@ -67,7 +64,7 @@ module.exports.login = (req, res, next) => {
         }
         const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : '63e8e9465bab2b7fc5b2b88d8d5c6854c9e734d02696c6364b833b5b6615c261', { expiresIn: '7d' });
         return res.send({ token });
-      });
+      }).catch(next);
     })
     .catch(() => {
       next(new UnauthorizedError('Неправильные почта или пароль'));
